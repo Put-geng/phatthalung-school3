@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devieve-width, initial-scale=1.0">
+    <title>โรงเรียนพัทลุง</title>
+    <link rel="stylesheet" href="CodeCSS/nav-bar.css">
+    <link rel="icon" href="favicon-logo.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="CodeCSS/Contact-Page.css">
+    <style>
+        .bg {
+            background: url('https://cms.dmpcdn.com/travel/2021/04/24/02e15380-a45c-11eb-82d0-f787c3df094f_original.jpg')no-repeat center center/cover;
+            filter: blur(1.5px) brightness(115%);
+        } 
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+
+     <!--nav-bar-->
+    <nav>
+        <div class="navlogo">
+            <img src="photo-Class/favicon-logo.png" alt="icon-image" class="nav-logo-img">
+            <div class="nav-logo">โรงเรียนพัทลุง</div>
+        </div>
+
+
+        <div class="menu-icon" id="menu-icon">
+            <span class="material-symbols-outlined hamberger-icon">dehaze</span>
+        </div>
+
+        <div class="nav-link" id="nav-link">
+            <a href="class-peaple.html">
+                <span class="material-symbols-outlined nav-icon">folder_shared</span>ข้อมูลนักเรียน
+            </a>
+            <a href="Check-class.html">
+                <span class="material-symbols-outlined nav-icon">browse_gallery</span>ตรวจห้องเรียน
+            </a>
+            <a href="" id="NameUser" class="no-after nav-link-active">
+                <span class="material-symbols-outlined nav-icon">account_box</span>ชื่อผู้ใช้
+            </a>
+        </div>
+    </nav>
+
+	<!--header-->
+	<div class="inline-head-contact">
+		<div class="green-contact">ช่องทางการติดต่อ</div><div class="yellow-contact">เจ้าของเว็บไซต์</div>
+	</div>
+
+    <div class="bigmain-box">
+        <div class="smallmain-box">
+            <div class="upperbox">
+                <img src="photo-Class/Myimage.jpg" alt="my-image" class="peaple-img">
+                <div class="content">
+                    <p class="head">ข้อมูล</p>
+                    <p>นายพุทธิธรรม เต็มราม</p>
+                    <p>ชั้นมัธยมศึกษาปีที่ 3.2 โรงเรียนพัทลุง</p>
+                    <p>Email : 45540@pt.ac.th</p>
+                </div>
+            </div>
+            <div class="lowerbox">
+                <div class="logo-box">
+                    <img src="photo-Class/logo-line.png" alt="line" class="logo">
+                    <div class="name-logo">Line</div>
+                    <p>( put_geng )</p>
+                    <button><a href="https://line.me/ti/p/HFTr38ZkaL">Qr-code</a></button>
+                </div>
+
+                <div class="logo-box">
+                    <img src="photo-Class/facebook-logo.png" alt="facebook" class="logo">
+                    <div class="name-logo">Facebook</div>
+                    <p>( Puttitum Temram )</p>
+                    <button><a href="https://www.facebook.com/puttitum.temram.3">facebook</a></button>
+                </div>
+
+                <div class="logo-box last">
+                    <img src="photo-Class/ig-logo.png" alt="Instragram" class="logo">
+                    <div class="name-logo">Instragram</div>
+                    <p>( put_geng )</p>
+                    <button><a href="https://www.instagram.com/put_geng/?next=%2F">Instragram</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--alert-box-->
+	<div id="alertBox" class="custom-alert">
+		<img id="alertIcon" src="" alt="alertIcon" class="alert-icon">
+		<span id="alertMessage" class="alertMessage"></span>
+		<button id="alertOkBtn">OK</button>
+        <button id="backbutton"><a href="index.html">กลับหน้า Login</a></button>
+	</div>
+
+    <script>
+        document.getElementById('menu-icon').onclick = function() {
+			    document.getElementById('nav-link').classList.toggle('active');
+		  }
+
+        /*ส่วนฟังชันเข้าสู่ระบบ*/
+		  const form = document.querySelector('form');
+		  const nameUser = document.getElementById('NameUser');
+
+        /*ถ้ามีข้อมูลอยู่แล้ว (เช่น reload หน้า) ให้ดึงกลับมาแสดง*/
+        window.addEventListener('load', function() {
+			  const savedEmailNumber = localStorage.getItem('email');
+			  if (savedEmailNumber) {
+				  nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmailNumber}`;
+			  } else {
+				  nameUser.innerHTML = `
+					  <span class="material-symbols-outlined">account_box</span>ชื่อผู้ใช้
+				  `;
+			  }
+		});
+		
+		
+		/*เมื่อกดที่ชื่อผู้ใช้ ให้แสดงข้อมูลที่กรอกไว้*/
+		nameUser.addEventListener("click", function(e) {
+			e.preventDefault();
+			const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
+			const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
+			showAlert(`ชื่อผู้ใช้ : ${savedName}\n อีเมล : ${savedEmail}`, "success");
+		});
+		
+		
+		
+		function showAlert(message, type="success", redirecURL=null) {
+		  	const alertBox = document.getElementById('alertBox');
+		  	const alertMessage = document.getElementById('alertMessage');
+		  	const alertBtn = document.getElementById('alertOkBtn');
+		  	const alertIcon = document.getElementById('alertIcon');
+            const backbutton = document.getElementById('backbutton');
+      
+		  	alertMessage.textContent = message;
+      
+		  	if (type === "error") {
+		  		alertIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828843.png";
+		  		alertBox.className = "custom-alert show error"
+		  	} else {
+		  		alertIcon.src = "https://cdn-icons-png.flaticon.com/512/845/845646.png";
+		  		alertBox.className = "custom-alert show"
+                backbutton.className = "show"
+		  	}
+			
+		  	alertBtn.onclick = () => {
+		  		alertBox.classList.remove('show');
+
+		  		if (redirecURL) {
+		  			window.location.href = redirecURL;
+		  		}
+		  	}
+		}
+    </script>
+</body>
+</html>

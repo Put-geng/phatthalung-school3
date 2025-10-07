@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>โรงเรียนพัทลุง</title>
+	<link rel="icon" href="favicon-logo.png" type="image/png">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+		
+		@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+		
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Poppins', sans-serif;
+		}
+		
+		html, body {
+			height: 100vh;
+			width: 100%;
+			overflow: hidden;
+		}
+		
+		body {
+			display: flex;	
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 85vh;
+			overflow: visible;
+		}
+		
+		.bg {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('Class-Peaple-Page/photo-Class/bg-school.jpg')no-repeat center center/cover;
+			filter: blur(0.5px) brightness(75%);
+			z-index: -5;
+		}
+		
+		nav {
+			position: fixed;
+			top: 0;
+			left: 0;
+			background-color: rgba(256, 256, 256, 0.7);
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+			z-index: 1;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+			padding: 15px;
+		}
+		
+		.navlogo {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-weight: bold;
+			font-size: 1.75rem;
+			padding-left: 1px;
+		}
+		
+		.nav-logo-img {
+			width: 32%;
+			height: 32%;
+			padding-left: 40px;
+		}
+		
+		.nav-logo {
+			font-family: "Sriracha", sans-serif;
+			font-size: 1.8rem;
+		}
+		
+		.nav-link a {
+			text-decoration: none;
+			color: black;
+			font-weight: bold;
+			font-size: 1rem;
+			font-family: 'Sriracha', sans-serif;
+			position: relative;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+		
+		.nav-link {
+			display: flex;
+			gap: 60px;
+			padding-right: 40px;
+		}
+		
+		.nav-link a::after {
+			content: "";
+			position: absolute;
+			right: -25px;
+			width: 2px;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.8);
+			border-radius: 5px;
+		}
+		
+		.nav-link .no-after::after {
+			display: none;
+		}
+		
+		.form-container {
+			margin-top: 0;
+		}
+		
+		
+		form {
+			display: flex;
+			flex-direction: column;
+			background-color: rgba(255, 255, 255, 0.8);
+			border-radius: 16px;
+			box-shadow: 2px 10px 15px rgba(0, 0, 0, 0.8);
+			padding: 30px;
+			margin-top: 15px;
+			width: auto;
+			height: auto;
+			animation: FormFateIn 3s ease;
+		}
+		
+		@keyframes FormFateIn {
+			0% {
+				opacity: 0;
+			}
+			
+			50% {
+				opacity: 0;
+			}
+			
+			100% {
+				opacity: 100%;
+			}
+		}
+		
+		.inline-head {
+			display: flex;
+			margin-top: 0;
+			animation: FateIn 2.5s ease;
+		}
+		
+		@keyframes FateIn {
+			0% {
+				opacity: 0;
+				transform: translateY(-20px);
+			}
+			
+			100% {
+				opacity: 100%;
+				transform: translateY(0);
+			}
+		}
+		
+		.inline-head div {
+			text-align: center;
+			font-size: 3.5rem;
+			font-weight: bold;
+			text-shadow: 2px 5px 10px rgba(0, 0, 0, 0.4);
+		}
+		
+		.green {
+			color: #33CC00;
+			font-family: 'Sriracha', sans-serif;
+		}
+		
+		.yellow {
+			color: #f2c100;
+			font-family: 'Sriracha', sans-serif;
+		}
+		
+		label {
+			text-align: center;
+			font-family: 'Sriracha',  sans-serif;
+			font-size: 1.3rem;
+		}
+		
+		input {
+			margin: 7px 25px;
+			font-size: 1rem;
+			padding: 6px 10px;
+			border-radius: 8px;
+			font-family: 'Sriracha', sans-serif;
+		}
+		
+		button {
+			width: 360px;
+			background-color: #33CC00;
+			color: white;
+			font-family: 'Sriracha', sans-serif;
+			margin: 10px auto;
+			border: 0.5px solid white;
+			border-radius: 12px;
+			padding: 7px;
+			font-size: 1rem;
+		}
+		
+		.form-container p {
+			margin-top: 15px;
+			display: flex;
+			gap: 10px;
+			font-family: 'Sriracha', sans-serif;
+			font-size: 1rem;
+		}
+		
+		.form-container a {
+			font-family: 'Sriracha', sans-serif;
+		}
+		
+		.material-symbols-outlined.hamberger-icon {
+			font-size: 2.4rem;
+			cursor: pointer;
+		}
+		
+		.material-symbols-outlined {
+			font-size: 1.8rem;
+		}
+		
+		.menu-icon {
+			display: none;
+		}
+		
+		@keyframes PhoneFate {
+			0% {
+				opacity: 0;
+			}
+			
+			100% {
+				opacity: 100%;
+			}
+		}
+		
+		
+		@media (max-width: 768px) {
+			.nav-link {
+				display: none;
+				flex-direction: column;
+				background-color: white;
+				border-radius: 6px;
+				position: absolute;
+				top: 30px;
+				right: 60px;
+				padding: 10px;
+				gap: 22px;
+				animation: PhoneFate 0.3.5s ease;
+			}
+			
+			.nav-link a::after {
+				content: "";
+				position: absolute;
+				bottom: -10px;
+				left: 0;
+				width: 100%;
+				height: 1.5px;
+				background-color: gray;
+			}
+			
+			.nav-link a {
+				font-size: 0.9rem;
+			}
+			
+			.nav-link.active {
+				display: flex;
+			}
+			
+			.menu-icon {
+				display: block;
+			}
+			
+			.nav-logo-img {
+				width: 26%;
+				height: 26%;
+			}
+			
+			.nav-logo {
+				font-size: 1.2rem;
+			}
+			
+			nav {
+				padding-left: 1px;
+				padding-right: 15px;
+			}
+			
+			.inline-head div {
+				font-size: 2.1rem;
+			}
+			
+			form {
+				margin: 0 60px;
+			}
+			
+			label {
+				font-size: 1rem;
+				margin-bottom: 15px;
+			}
+			
+			input {
+				font-size: 0.9rem;
+				padding: 4px 8px;
+				margin: 7px 2px;
+			}
+			
+			button {
+				width: 200px;
+				padding: 6px;
+				font-size: 0.9rem;
+				margin-top: 15px;
+				margin-bottom: 20px;
+			}
+			
+			.form-container p {
+				font-size: 0.9rem;
+			} 
+		}
+		
+		@media (max-width: 834px) {
+			.nav-link a {
+				font-size: 0.8rem;
+				margin-right: 9px;
+			}
+			
+			.nav-logo-img {
+				width: 29%;
+				height: 29%;
+			}
+			
+			.nav-logo {
+				font-size: 1.4rem;
+			}
+			
+			.nav-link {
+				padding-right: 6px;
+				gap: 13px;
+			}
+			
+			.nav-link a::after {
+				right: -8px;
+			}
+		}
+
+		@media (max-width: 1024px) {
+			.nav-link a {
+				font-size: 1rem;
+				margin-right: 15px;
+			}
+			
+			.nav-logo-img {
+				width: 31%;
+				height: 31%;
+			}
+			
+			.nav-logo {
+				font-size: 1.7rem;
+			}
+			
+			.nav-link {
+				padding-right: 6px;
+				gap: 13px;
+			}
+			
+			.nav-link a::after {
+				right: -8px;
+			}
+
+			.inline-head {
+				font-size: 2.5rem;
+			}
+
+			form {
+				margin: 0 auto;
+			}
+
+			nav {
+				padding: 5px;
+			}
+		}
+		
+		.custom-alert {
+			display: flex;
+			flex-direction: column; 
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #33CC00;
+			color: white;
+			padding: 20px 30px;
+			border-radius: 12px;
+			box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.4);
+			font-family: 'Sriracha', sans-serif;
+			z-index: 9999;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.5s ease, transform 0.5 ease;
+			text-align: center;
+		}
+		
+		.custom-alert.show {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translate(-50%, -50%) scale(1.05);
+			animation: pop 0.3s ease;
+		}
+
+		@keyframes pop {
+			0% {
+				transform: translate(-50%, -50%) scale(0.8); 
+				opacity: 0;
+			}
+
+			100% {
+				transform: translate(-50%, -50%) scale(1.05);
+				opacity: 1;
+			}
+		}
+		
+		.custom-alert.error {
+			background-color: #da1b1b;
+		}
+		
+		.custom-alert button {
+			margin-top: 15px;
+			padding: 6px 12px;
+			border: none;
+			border-radius: 8px;
+			background-color: white;
+			color: #33CC00;
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		.custom-alert.error button {
+			color: #da1b1b;
+		}
+
+		.custom-alert img {
+			width: 100px;
+			height: 100px;
+			margin-bottom: 10px;
+			margin: 10px auto;
+		}
+
+		.alertMessage {
+			font-family: 'Sriracha', sans-serif;
+			font-size: 1.2rem;
+			margin-top: 10px;
+			color: white;
+		}
+
+		@media (max-width: 460px) {
+			.nav-logo-img {
+				width: 25%;
+				height: 25%;
+			}
+
+			.nav-logo {
+				font-size: 1.3rem;
+			}
+
+			.material-symbols-outlined.hamberger-icon {
+				font-size: 2rem;
+			}
+
+			.inline-head {
+				display: block;
+			}
+
+			button {
+				margin-bottom: 5px;
+				width: 240px;
+				padding: 4px;
+			}
+
+			.form-container p {
+				font-size: 0.7rem;
+			}
+
+			body {
+				height: 80vh;
+				overflow: visible;
+			}
+
+			label {
+				font-size: 0.9rem;
+			}
+
+			input {
+				margin: 7px 0;
+				font-size: 0.8rem;
+			}
+			
+			form {
+				margin-top: 15px;
+				margin: 15px auto 0 auto;
+			}
+
+			.custom-alert {
+				width: 75%;
+				padding: 12px 16px;
+				box-sizing: border-box;
+			}
+
+			.custom-alert img {
+				width: 70px;
+				height: 70px;
+			}
+
+			.alertMessage {
+				font-size: 0.95rem;
+			}
+
+			.custom-alert button {
+				font-size: 0.85rem;
+				padding: 5px 10px;
+				display: block;
+				margin: 12px auto 0;
+				width: 95%;
+				max-width: 100%;
+			}
+
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="bg"></div>
+	<canvas id="canvas"></canvas>
+	<!--nav-bar-->
+	<nav>
+		<div class="navlogo">
+			<img src="favicon-logo.png" alt="nav-logo-img" class="nav-logo-img">
+			<div class="nav-logo">โรงเรียนพัทลุง</div>
+		</div>
+		
+		<div class="menu-icon" id="menu-icon">
+			<span class="material-symbols-outlined hamberger-icon">
+dehaze
+</span>
+		</div>
+		
+		<div class="nav-link" id="nav-link">
+			<a href=""><span class="material-symbols-outlined">
+folder_shared
+</span>ข้อมูลห้องเรียน</a>
+			<a href=""><span class="material-symbols-outlined">
+browse_gallery
+</span>ตรวจห้องเรียน</a>
+			<a href="" id="NameUser" class="no-after"><span class="material-symbols-outlined">
+account_box
+</span>ชื่อผู้ใช้ </a>
+		</div>
+	</nav>
+	
+	<!--form-->
+	
+	<div class="form-container">
+		<div class="inline-head">
+			<div class="green">ยินดีต้อนรับเข้าสู่</div><div class="yellow">เว็บไซต์ของเรา</div>
+		</div>
+		<form>
+			<label for="username">โปรดลงชื่อเข้าใช้เพื่อเข้าใช้งาน</label>
+			<input type="text" id="username" placeholder="ชื่อผู้ใช้ ( ชื่อ - นามสกุล)" autocomplete="off">
+			<input type="email" id="email" placeholder="อีเมล ( 12345@pt.ac.th)" autocomplete="off">
+			<button type="submit">เข้าสู่ระบบ</button>
+			<p>ช่องทางการติดต่อเจ้าของเว็บไซต์<a href="Class-Peaple-Page/Contact-Page.html">ติดต่อที่นี่</a></p>
+		</form>
+	</div>
+	
+	<!--alert-box-->
+	<div id="alertBox" class="custom-alert">
+		<img id="alertIcon" src="" alt="alertIcon" class="alert-icon">
+		<span id="alertMessage" class="alertMessage"></span>
+		<button id="alertOkBtn">OK</button>
+	</div>
+	
+	
+	<!--javascript-->
+	<script>
+		document.getElementById('menu-icon').onclick = function() {
+			document.getElementById('nav-link').classList.toggle('active');
+		}
+		
+		
+		/*ส่วนฟังชันเข้าสู่ระบบ*/
+		const form = document.querySelector('form');
+		const nameUser = document.getElementById('NameUser');
+		
+		
+		
+		form.addEventListener('submit', function(e) {
+			e.preventDefault(); /*ป้องกันการรีเฟรส*/
+			
+			const username = document.getElementById('username').value.trim();
+			const email = document.getElementById('email').value.trim();
+			
+			if (username === "" || email === "") {
+				showAlert("กรุณากรอกชื่อผู้ใช้และอีเมลให้ครบก่อนเข้าสู่ระบบ", "error");
+				return;
+			}
+			
+			/*ตรวจสอบแพทเทิล (เฉพาะส่วนที่เป็น pt.ac.th)*/
+			const emailPattern = /^(\d{5})@pt\.ac\.th$/;
+			const match = email.match(emailPattern);
+			
+			if (!match) {
+				showAlert("อีเมลไม่ถูกต้อง ต้องอยู่ในรูปแบบ @pt.ac.th เท่านั้น", "error");
+				return;
+			}
+			
+			const numberPart = match[1];
+			
+			/*เก็บข้อมูลใน localStorange */
+			localStorage.setItem('username', username);
+			localStorage.setItem('emailNumber', numberPart);
+			localStorage.setItem('email', email);
+			
+			/*อัปเดตชื่อบน nav ทันที */
+			nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${email}`;
+			
+			form.reset();
+			showAlert("เข้าสู่ระบบสำเร็จ", "success", "Class-Peaple-Page/class-peaple.html"); 
+		});
+		
+		
+		
+		/*ถ้ามีข้อมูลอยู่แล้ว (เช่น reload หน้า) ให้ดึงกลับมาแสดง*/
+		window.addEventListener('load', function() {
+			const savedEmailNumber = localStorage.getItem('email');
+			if (savedEmailNumber) {
+				nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmailNumber}`;
+			} else {
+				nameUser.innerHTML = `
+					<span class="material-symbols-outlined">account_box</span>ชื่อผู้ใช้
+				`;
+			}
+		});
+		
+		
+		/*เมื่อกดที่ชื่อผู้ใช้ ให้แสดงข้อมูลที่กรอกไว้*/
+		nameUser.addEventListener("click", function(e) {
+			e.preventDefault();
+			const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
+			const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
+			showAlert(`ชื่อผู้ใช้ : ${savedName}\n อีเมล : ${savedEmail}`, "success");
+		});
+		
+		
+		
+		function showAlert(message, type="success", redirecURL=null) {
+			const alertBox = document.getElementById('alertBox');
+			const alertMessage = document.getElementById('alertMessage');
+			const alertBtn = document.getElementById('alertOkBtn');
+			const alertIcon = document.getElementById('alertIcon');
+			
+			alertMessage.textContent = message;
+			
+			if (type === "error") {
+				alertIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828843.png";
+				alertBox.className = "custom-alert show error"
+			} else {
+				alertIcon.src = "https://cdn-icons-png.flaticon.com/512/845/845646.png";
+				alertBox.className = "custom-alert show"
+			}
+			
+			alertBtn.onclick = () => {
+				alertBox.classList.remove('show');
+
+				if (redirecURL) {
+					window.location.href = redirecURL;
+				}
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โรงเรียนพัทลุง</title>
+    <link rel="stylesheet" href="CodeCSS/nav-bar.css">
+    <link rel="icon" href="photo-Class/favicon-logo.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link rel="stylesheet" href="CodeCSS/check-class.css">
+</head>
+<body>
+    <div class="bg"></div>
+
+    <!--nav-bar-->
+    <nav>
+        <div class="navlogo">
+            <img src="photo-Class/favicon-logo.png" alt="icon-image" class="nav-logo-img">
+            <div class="nav-logo">โรงเรียนพัทลุง</div>
+        </div>
+
+        <div class="menu-icon" id="menu-icon">
+            <span class="material-symbols-outlined hamberger-icon">dehaze</span>
+        </div>
+
+        <div class="nav-link" id="nav-link">
+            <a href="class-peaple.html">
+                <span class="material-symbols-outlined nav-icon">folder_shared</span>ข้อมูลนักเรียน
+            </a>
+            <a href="Check-class.html" class="nav-link-active">
+                <span class="material-symbols-outlined nav-icon">browse_gallery</span>ตรวจห้องเรียน
+            </a>
+            <a href="" id="NameUser" class="no-after">
+                <span class="material-symbols-outlined nav-icon">account_box</span>ชื่อผู้ใช้
+            </a>
+        </div>
+    </nav>
+
+	<!--header-->
+	<div class="inline-head-for-check">
+		<div class="green-for-check">ตรวจสอบเวลาว่างของ</div><div class="yellow-for-check">อาคารและห้องเรียนต่างๆ</div>
+	</div>
+
+  <div class="timecurrent" id="timecurrent"></div>
+
+    <!-- อาคารต่างๆ -->
+    <section class="building">
+        <h2>อาคาร 1</h2>
+        <div id="building-1" class="rooms"></div>
+    </section>
+
+    <section class="building">
+        <h2>อาคาร 2</h2>
+        <div id="building-2" class="rooms"></div>
+    </section>
+
+    <section class="building">
+        <h2>อาคราร 3</h2>
+        <div id="building-3" class="rooms"></div>
+    </section>
+
+    <section class="building">
+      <h2>อาคาร 4</h2>
+      <div id="building-4" class="rooms"></div>
+    </section>
+
+    <section class="building">
+        <h2>อาคารอเนกประสงค์</h2>
+        <div id="building-multipurpose" class="rooms"></div>
+    </section>
+    
+
+    <!--alert-box-->
+	<div id="alertBox" class="custom-alert">
+		<img id="alertIcon" src="" alt="alertIcon" class="alert-icon">
+		<span id="alertMessage" class="alertMessage"></span>
+		<button id="alertOkBtn">OK</button>
+    <button id="backbutton"><a href="index.html">กลับหน้า Login</a></button>
+	</div>
+
+    <script>
+        document.getElementById('menu-icon').onclick = function() {
+			    document.getElementById('nav-link').classList.toggle('active');
+		  }
+
+        /*ส่วนฟังชันเข้าสู่ระบบ*/
+		  const form = document.querySelector('form');
+		  const nameUser = document.getElementById('NameUser');
+
+        /*ถ้ามีข้อมูลอยู่แล้ว (เช่น reload หน้า) ให้ดึงกลับมาแสดง*/
+      window.addEventListener('load', function() {
+			  const savedEmailNumber = localStorage.getItem('email');
+			  if (savedEmailNumber) {
+				  nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmailNumber}`;
+			  } else {
+				  nameUser.innerHTML = `
+					  <span class="material-symbols-outlined">account_box</span>ชื่อผู้ใช้
+				  `;
+			  }
+		  });
+		
+		
+		  /*เมื่อกดที่ชื่อผู้ใช้ ให้แสดงข้อมูลที่กรอกไว้*/
+		  nameUser.addEventListener("click", function(e) {
+		  	e.preventDefault();
+		  	const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
+		  	const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
+		  	showAlert(`ชื่อผู้ใช้ : ${savedName}\n อีเมล : ${savedEmail}`, "success");
+		  });
+		
+		
+		
+		  function showAlert(message, type="success", redirecURL=null) {
+		  	const alertBox = document.getElementById('alertBox');
+		  	const alertMessage = document.getElementById('alertMessage');
+		  	const alertBtn = document.getElementById('alertOkBtn');
+		  	const alertIcon = document.getElementById('alertIcon');
+        const backbutton = document.getElementById('backbutton');
+      
+		  	alertMessage.textContent = message;
+      
+		  	if (type === "error") {
+		  		alertIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828843.png";
+		  		alertBox.className = "custom-alert show error"
+		  	} else {
+		  		alertIcon.src = "https://cdn-icons-png.flaticon.com/512/845/845646.png";
+		  		alertBox.className = "custom-alert show"
+          backbutton.className = "show"
+		  	}
+			
+		  	alertBtn.onclick = () => {
+		  		alertBox.classList.remove('show');
+
+		  		if (redirecURL) {
+		  			window.location.href = redirecURL;
+		  		}
+		  	}
+		  }
+
+      const buildings = {
+        "building-1": {
+          "ห้อง 122": [
+            { day: "จันทร์", start: "08:30", end: "09:20", class: "ม.1.1", subject: "วิทยาศาสตร์" },
+            { day: "จันทร์", start: "09:20", end: "11:00", class: "ม.1.1", subject: "คณิตศาสตร์"},
+            { day: "จันทร์", start: "11:50", end: "13:30", class: "ม.1.1", subject: "อังกฤษสื่อสาร"},
+            { day: "อังคาร", start: "10:10", end: "11:00", class: "ม.1.1", subject: "สังคมศึษา" },
+            { day: "อังคาร", start: "11:50", end: "13:30", class: "ม.1.1", subject: "คณิตศาสตร์"},
+            { day: "พุธ", start: "08:30", end: "10:10", class: "ม.1.1", subject: "ภาษาไทย" },
+            { day: "พุธ", start: "10:10", end: "11:00", class: "ม.1.1", subject: "คณิตศาสตร์"},
+            { day: "พุธ", start: "12:40", end: "13:30", class: "ม.1.1", subject: "สุขศึกษา"},
+            { day: "พฤหัสบดี", start: "10:10", end: "11:00", class: "ม.1.1", subject: "ภาษาอังกฤษ"},
+            { day: "พฤหัสบดี", start: "13:30", end: "15:10", class: "ม.1.1", subject: "ประวัติศาสตร์"},
+            { day: "ศุกร์", start: "08:30", end: "09:20", class: "ม.1.1", subject: "ภาษาไทย"},
+            { day: "ศุกร์", start: "09:20", end: "10:10", class: "ม.1.1", subject: "สังคมศึกษา"},
+            { day: "ศุกร์", start: "10:10", end: "11:00", class: "ม.1.1", subject: "แนะแนว"},
+            { day: "ศุกร์", start: "11:50", end: "13:30", class: "ม.1.1", subject: "ภาษาอังกฤษ"}
+          ],
+          "ห้อง 102": [
+            { day: "อาทิตย์", start: "20:45", end: "21:30", class: "ม.1/2", subject: "อังกฤษ" },
+            { day: "อาทิตย์", start: "21:34", end: "22:00", class: "ม.1/2", subject: "ศิลปะ" },
+          ],
+
+          "ห้อง 103": [
+            { day: "จันทร์", start: "08:30", end: "09:30", class: "ม.1/2", subject: "อังกฤษ" },
+            { day: "พฤหัสบดี", start: "09:30", end: "10:20", class: "ม.1/2", subject: "ศิลปะ" },
+          ],
+
+          "ห้อง 104": [
+            { day: "จันทร์", start: "08:30", end: "09:30", class: "ม.1/2", subject: "อังกฤษ" },
+            { day: "พฤหัสบดี", start: "09:30", end: "10:20", class: "ม.1/2", subject: "ศิลปะ" },
+          ],
+
+          "ห้อง 105": [
+            { day: "จันทร์", start: "08:30", end: "09:30", class: "ม.1/2", subject: "อังกฤษ" },
+            { day: "พฤหัสบดี", start: "09:30", end: "10:20", class: "ม.1/2", subject: "ศิลปะ" },
+          ],
+        },
+      
+        "building-2": {
+          "ห้อง 201": [
+            { day: "อังคาร", start: "08:00", end: "09:00", class: "ม.2/1", subject: "วิทยาศาสตร์" },
+            { day: "ศุกร์", start: "10:00", end: "11:00", class: "ม.2/1", subject: "สุขศึกษา" },
+          ],
+          "ห้อง 202": [
+            { day: "จันทร์", start: "09:00", end: "10:00", class: "ม.2/2", subject: "ศิลปะ" },
+            { day: "พุธ", start: "13:00", end: "14:00", class: "ม.2/2", subject: "ภาษาไทย" },
+          ]
+        },
+
+        "building-3": {
+          "ห้อง 301": [
+            { day: "จันทร์", start: "13:50", end: "14:30", class: "ม.3.1", subject: "วิทยาศาสตร์"},
+            { day: "จันทร์", start: "14:30", end: "15:00", class: "ม.3.2", subject: "ภาษาไทย"}
+          ]
+        },
+
+        "building-4": {
+          "ห้อง 455": [
+            { day: "จันทร์", start: "14:00", end: "15:40", class: "ม.4.1", subject: "ภาษาต่างประเทศที่ 2"}
+          ]
+        },
+      
+        "building-multipurpose": {
+          "ห้องสมุด": [
+            { day: "ทุกวัน", start: "08:00", end: "20:40", class: "ห้องสมุด", subject: "เปิดบริการ" }
+          ],
+          "ห้องคอม 1": [
+            { day: "พุธ", start: "09:00", end: "10:30", class: "ม.3/1", subject: "คอมพิวเตอร์" },
+            { day: "ศุกร์", start: "13:00", end: "15:00", class: "ม.3/2", subject: "คอมพิวเตอร์" }
+          ]
+        }
+      };
+      
+      // ✅ ฟังก์ชันเวลา
+      function getSecondsSinceMidnight() {
+        const now = new Date();
+        return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+      }
+      
+      // ✅ แสดงชั่วโมง/นาที/วินาที ถูกต้อง
+      function formatCountdown(seconds) {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        return `${h > 0 ?  h.toString().padStart(2, '0') + " ชั่วโมง" : ""} ${m > 0 ? m.toString().padStart(2, '0') + " นาที" : ""} ${s.toString().padStart(2, '0')} วินาที`;
+      }
+      
+      // ✅ ฟังก์ชันหลัก
+      function updateAllBuildings() {
+        const days = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"];
+        const today = days[new Date().getDay()];
+        const now = getSecondsSinceMidnight();
+      
+        for (const [buildingId, rooms] of Object.entries(buildings)) {
+          const container = document.getElementById(buildingId);
+          container.innerHTML = "";
+        
+          for (const [roomName, times] of Object.entries(rooms)) {
+            let status = "ว่าง";
+            let className = "free";
+            let countdown = "";
+            let currentClass = "";
+            let currentSubject = "";
+            let nextClass = "";
+            let nextSubject = "";
+            let soonestStart = null;
+          
+            for (const t of times) {
+              if (t.day !== today && t.day !== "ทุกวัน") continue;
+            
+              const [sh, sm] = t.start.split(":").map(Number);
+              const [eh, em] = t.end.split(":").map(Number);
+              const startSec = sh * 3600 + sm * 60;
+              const endSec = eh * 3600 + em * 60;
+            
+              if (now >= startSec && now < endSec) {
+                status = "ไม่ว่าง";
+                className = "busy";
+                countdown = `จะว่างอีกใน ${formatCountdown(endSec - now)}`;
+                currentClass = t.class;
+                currentSubject = t.subject;
+                break;
+              } else if (now < startSec) {
+                if (!soonestStart || startSec < soonestStart.startSec) {
+                  soonestStart = { ...t, startSec };
+                }
+              }
+            }
+          
+            if (status === "ว่าง" && soonestStart) {
+              countdown = `จะไม่ว่างในอีก ${formatCountdown(soonestStart.startSec - now)}`;
+              nextClass = soonestStart.class;
+              nextSubject = soonestStart.subject;
+            }
+          
+            const div = document.createElement("div");
+            div.className = `room ${className}`;
+            div.innerHTML = `
+              <h3>${roomName}</h3>
+              <p>${status}</p>
+              ${currentClass ? `<p>ชั้นเรียน: ${currentClass}</p><p>วิชา: ${currentSubject}</p>` : ""}
+              ${!currentClass && nextClass ? `<p>ชั้นเรียนถัดไป: ${nextClass}</p><p>วิชา: ${nextSubject}</p>` : ""}
+              <p>${countdown}</p>
+            `;
+            container.appendChild(div);
+          }
+        }
+      }
+      
+      updateAllBuildings();
+      setInterval(updateAllBuildings, 1000);
+
+      function addtimecurrent() {
+        const time = document.getElementById('timecurrent');
+        const days = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"];
+        const today = days[new Date().getDay()];
+        const seconds = getSecondsSinceMidnight();
+        const months = [
+          "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+          "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+        ];
+
+        const now = new Date();
+
+        const date = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear() + 543;
+        const h = now.getHours().toString().padStart(2, '0');
+        const m = now.getMinutes().toString().padStart(2, '0');
+        const s = now.getSeconds().toString().padStart(2, '0');
+
+        time.innerHTML = `
+          <h2>วัน${today} ที่ ${date} ${month} พ.ศ.${year} เวลา ${h} : ${m} : ${s}</h2>
+        `
+      }
+
+      addtimecurrent();
+      setInterval(addtimecurrent, 1000);
+    </script>
+</body>
+</html>

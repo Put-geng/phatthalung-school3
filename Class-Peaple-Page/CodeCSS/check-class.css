@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+
+section.building {
+    margin: 40px 0;
+    width: 90%;
+    max-width: 1000px;
+}
+
+* {
+    font-family: 'Sriracha', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section.building h2 {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    font-family: 'Sriracha', sans-serif;
+    font-weight: 500;
+    font-size: 1.8rem;
+    text-align: center;
+    border: 4.5px solid rgba(29, 93, 183, 0.803);
+}
+    
+.rooms {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.room {
+    width: 210px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    color: white;
+    text-align: center;
+}
+
+.room.free {
+    background-color: #27ae60;
+    border: 4px solid darkgreen;
+    box-shadow: 7px 7px 2px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.room.busy {
+    background-color: #c0392b;
+    text-align: left;
+    border: 4px solid rgb(116, 19, 19);
+    box-shadow: 7px 7px 2px rgba(0, 0, 0, 0.3);
+}
+
+.room p:nth-child(2) {
+  font-weight: 600;
+  margin: 5px 0;
+  text-align: center;
+  background-color: orange;
+  border-radius: 4px;
+}
+
+.room h3 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+.timecurrent h2 {
+    font-family: 'Sriracha', sans-serif;
+    color: white;
+    font-weight: 400;
+    font-size: 1.85rem;
+}
+
+.timecurrent {
+    background-color: rgba(61, 133, 133, 0.948);
+    padding: 15px;
+    margin-top: 30px;
+    clip-path: polygon();
+    box-shadow: 5px 6px 2px rgba(255, 255, 255, 0.4);
+    width: auto;
+}
+
+.inline-head-for-check {
+	display: flex;
+	margin-top: 0;
+	animation: FateInHeader 2.5s ease;
+}
+		
+@keyframes FateInHeader {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+			
+	100% {
+		opacity: 100%;
+		transform: translateY(0);
+	}
+}
+
+.inline-head-for-check div {
+	text-align: center;
+	font-size: 4.5rem;
+	font-weight: bold;
+	text-shadow: 5px 3px 1px rgba(0, 0, 0, 0.91);
+}
+		
+.green-for-check {
+	color: #4cc324;
+	font-family: 'Sriracha', sans-serif;
+}
+		
+.yellow-for-check {
+	color: #ecc21c;
+	font-family: 'Sriracha', sans-serif;
+}
+
+
+@media screen and (min-width: 1025px) {
+    .inline-head-for-check div {
+	    text-align: center;
+	    font-size: 4rem;
+	    font-weight: bold;
+	    text-shadow: 5px 3px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    section.building {
+        margin: 40px 0;
+        width: 90%;
+        max-width: 1100px;
+    }
+
+    .rooms {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .room {
+        width: 250px;
+    }
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .rooms {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .inline-head-for-check div {
+	    font-size: 3.3rem;
+	    font-weight: bold;
+	    text-shadow: 3.5px 3px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    .inline-head-for-check {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .room {
+        width: 255px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .inline-head-for-check div {
+	    font-size: 2.7rem;
+	    font-weight: bold;
+	    text-shadow: 3.5px 3px 1px rgba(0, 0, 0, 0.91);
+    }
+    
+    .timecurrent {
+        width: 90%;
+    }
+
+    .timecurrent h2 {
+        font-size: 1.3rem;
+    }
+
+    .rooms {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .room {
+        width: 210px;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .timecurrent {
+        width: 80%;
+    }
+
+    .timecurrent h2 {
+        font-size: 1.2rem;
+    }
+
+    section.building h2 {
+        font-size: 1.4rem;
+    }
+
+    .rooms {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .room {
+        width: 150px;
+    }
+
+    .inline-head-for-check div {
+	    font-size: 1.8rem;
+	    font-weight: bold;
+	    text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    .inline-head-for-check {
+        display: flex;
+        flex-direction: column;
+    }
+}
