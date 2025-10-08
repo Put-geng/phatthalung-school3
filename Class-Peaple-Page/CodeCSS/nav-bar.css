@@ -41,7 +41,7 @@ nav {
 	left: 0;
 	background-color: rgba(256, 256, 256, 1);
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-	z-index: 1;
+	z-index: 40;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -228,42 +228,13 @@ nav {
 	font-family: 'Sriracha', sans-serif;
 }
 
-.class-section {
-	margin-top: 30px;
-	text-align: center;
-}
-
-.class-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	gap: 65px;
-	padding: 0 30px 60px;
-	max-width: 1800px;
-	margin: 0 auto;
-}
-
-.class-box {
-	background-color: #fff176e7;
-	border-radius: 15px;
-	box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-	text-decoration: none;
-	color: #222;
-	font-size: 1.3rem;
-	font-weight: 600;
-	padding: 40px 0;
-	transition: all 0.3s ease;
-	min-height: 150px;
-	border: 3px solid rgb(162, 106, 16);
-	position: relative;
-}
-
-.class-box.blur {
+.container-box.blur {
 	transform: scale(0.98);
 	position: relative;
-	overflow: hidden;
+	overflow: visible;
 }
 
-.class-box .view-btn {
+.container-box .view-btn {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -278,7 +249,7 @@ nav {
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 	border: 2px solid #222;
 	display: none;
-	z-index: 10; /* อยู่เหนือเลเยอร์เบลอ */
+	z-index: 15; /* อยู่เหนือเลเยอร์เบลอ */
 	animation: fateInButton 0.5s ease;
 }
 
@@ -317,45 +288,24 @@ nav {
 	}
 }
 
-.class-box.show-btn .view-btn {
+.container-box.show-btn .view-btn {
 	display: block;
 }
 
-.class-box.blur::after {
+.container-box.blur::after {
 	content: "";
 	position: absolute;
 	inset: 0;
 	background-color: rgba(255, 255, 255, 0.3);
-	backdrop-filter: blur(2px) brightness(0.8); /* 👈 เบลอเฉพาะพื้นหลัง */
-	z-index: 5;
-	border-radius: 15px;
+	backdrop-filter: blur(1.5px) brightness(0.8); /* 👈 เบลอเฉพาะพื้นหลัง */
+	z-index: 11;
+	border-radius: 8px;
 }
 
-.class-box:hover {
+.container-box:hover {
 	transform: translateY(-5px);
-	background: #e9db56ee;
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7); 
 }
-
-.group-icon {
-	font-size: 5.5rem;
-	color: rgb(162, 106, 16);
-	border: 5px solid rgb(162, 106, 16);
-	border-radius: 50%;
-	padding: 13px;
-	margin: 0 0 15px 0;
-	background-color: rgba(255, 255, 255, 0.871);
-}
-
-.class-grid a>div {
-	font-size: 2rem;
-	font-family: 'Sriracha', sans-serif;
-	border-top: 3px solid #175d00;
-	border-bottom: 3px solid #175d00;
-	background-color: #8afa8a8e;
-}
-
-
 
 @keyframes PhoneFate {
 	0% {
@@ -384,33 +334,9 @@ nav {
 	.inline-head div {
 		font-size: 3.5rem;
 	}
-
-	.class-grid {
-    	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    	max-width: 1200px;
-		gap: 40px;
-  }
-
-  .class-box {
-	min-height: 60px;
-  }
-
-  .class-grid a>div {
-	font-size: 1.4rem;
-  }
-
-  .group-icon {
-	font-size: 3.5rem;
-  }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-	.class-grid {
-		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-		max-width: 900px;
-		gap: 40px;
-	}
-
 	.inline-head div {
 		font-size: 2.5rem;
 	}
@@ -418,18 +344,6 @@ nav {
 	body {
 		height: auto;
 		padding-top: 150px;
-	}
-
-	.class-box {
-		min-height: 90px;
-	}
-
-	.class-grid a>div {
-		font-size: 1.3rem;
-	}
-
-	.group-icon {
-		font-size: 3.5rem;
 	}
 
 	.nav-link a {
@@ -457,21 +371,6 @@ nav {
 }
 
 @media screen and (max-width: 768px) {
-	.class-grid {
-		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-		max-width: 800px;
-		gap: 40px;
-	}
-
-	.group-icon {
-		font-size: 2.3rem;
-		border: 3px solid rgb(162, 106, 16);
-	}
-
-	.class-box {
-		min-height: 100px;
-	}
-
 	.inline-head div {
 		text-shadow: 4px 3px 1px rgba(0, 0, 0, 0.9);
 	}
@@ -546,13 +445,6 @@ nav {
 }
 
 @media screen and (max-width: 480px) {
-	.class-grid {
-		grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-		max-width: 300px;
-		gap: 25px;
-		padding: 0 10px 40px;
-	}
-
 	body {
 		height: auto;
 		padding-top: 110px;
