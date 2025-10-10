@@ -21,26 +21,29 @@ function saveRatings(data) {
 }
 
 // ดึงคะแนนเฉลี่ย
-app.get("/api/ratings", (req, res) => {
-  const ratings = loadRatings();
-  res.json(ratings);
+app.get("/api/average/:menuId", (req, res) => {
+  const { menuId } = req.params;
+  const ratings = loadRatings()[menuId] || [];
+  const count = ratings.length;
+  const average = count ? ratings.reduce((a,b)=>a+b,0)/count : 0;
+
+  res.json({ average, count });
 });
+
 
 // บันทึกคะแนนใหม่
 app.post("/api/rate", (req, res) => {
-  const { menuId, rating } = req.body;
-  if (!menuId || !rating) {
-    return res.status(400).json({ error: "ข้อมูลไม่ครบ" });
-  }
+  const { menuId, rating } = req.body; 
+  if (!menuId || !rating) return res.status(400).json({ error: "ข้อมูลไม่ครบ" });
 
   const ratings = loadRatings();
-
   if (!ratings[menuId]) ratings[menuId] = [];
   ratings[menuId].push(rating);
 
   saveRatings(ratings);
-  res.json({ success: true, ratings });
+  res.json({ success: true, ratings }); // ส่ง ratings กลับ
 });
+
 
 app.listen(PORT, () => {
   console.log(`✅ Server ทำงานที่ http://localhost:${PORT}`);

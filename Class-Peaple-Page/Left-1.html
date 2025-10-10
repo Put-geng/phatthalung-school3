@@ -52,8 +52,8 @@
         <div class="big-box-menu">
             <div class="small-box-menu">
                 <div class="food-image">
-                    <img src="" alt="" class="food">
-                    <img src="" alt="" class="food">
+                    <img src="photo-Class/Left-Res1-no1-1.jpg" alt="" class="food-photo">
+                    <img src="" alt="" class="food-photo">
                 </div>
                 <div class="content-menu">
                     <h3></h3>
@@ -71,7 +71,7 @@
     </div>
 
     <!-- Alert Box -->
-    <div id="ratingAlert" class="custom-alert">
+    <div id="ratingAlert" class="custom-alert-new">
         <div class="alert-content">
             <h3>ให้คะแนนเมนูนี้</h3>
             <div class="stars-rating"></div>
@@ -147,25 +147,14 @@
 			}
 		}
 
-        document.addEventListener('DOMContentLoaded', ()=>{
-            // เลือกทุก small-box-menu
-            document.querySelectorAll('.small-box-menu').forEach((box, index)=>{
-                const menuId = index+1; // กำหนด id ของเมนู
-                const contentDiv = box.querySelector('.content-menu');
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.small-box-menu').forEach((box, index) => {
+                const menuId = index + 1;
+                const avgDisplay = box.querySelector('.average-rating'); // ใช้ element เดิม
+                const rateBtn = box.querySelector('.rate-btn'); // ใช้ปุ่มเดิม
             
-                // เพิ่มส่วนแสดงค่าเฉลี่ย
-                const avgDisplay = document.createElement('p');
-                avgDisplay.id = `avg-${menuId}`;
-                avgDisplay.textContent = "⭐️ 0 (0 คน)";
-                contentDiv.appendChild(avgDisplay);
-            
-                // เพิ่มปุ่มให้คะแนน
-                const rateBtn = document.createElement('button');
-                rateBtn.textContent = "ให้คะแนน";
-                contentDiv.appendChild(rateBtn);
-            
-                rateBtn.addEventListener('click', ()=>{
-                    // สร้าง alert overlay
+                rateBtn.addEventListener('click', () => {
+                    // สร้าง overlay สำหรับ alert
                     const overlay = document.createElement('div');
                     overlay.classList.add('alert-overlay');
                     overlay.innerHTML = `
@@ -177,48 +166,75 @@
                         </div>
                     `;
                     document.body.appendChild(overlay);
+                    setTimeout(() => overlay.classList.add('show'), 50);
                     
                     const starsDiv = overlay.querySelector('.stars');
                     let selected = 0;
                     
-                    // สร้างดาว 5 ดวง
-                    for(let i=1;i<=5;i++){
+                    for (let i = 1; i <= 5; i++) {
                         const s = document.createElement('span');
                         s.textContent = '★';
-                        s.addEventListener('click', ()=>{ selected=i; updateStars(); });
+                        s.addEventListener('click', () => { selected = i; updateStars(); });
                         starsDiv.appendChild(s);
                     }
-                    function updateStars(){
-                        starsDiv.querySelectorAll('span').forEach((s, idx)=>{
-                            s.style.color = idx<selected?'gold':'gray';
+                
+                    function updateStars() {
+                        starsDiv.querySelectorAll('span').forEach((s, idx) => {
+                            s.style.color = idx < selected ? 'gold' : 'gray';
                         });
                     }
                 
-                    // ส่งคะแนนไป backend
-                    overlay.querySelector('#sendBtn').addEventListener('click', async ()=>{
-                        if(selected===0){ alert("กรุณาเลือกจำนวนดาว"); return; }
+                    overlay.querySelector('#sendBtn').addEventListener('click', async () => {
+                        if (selected === 0) { alert("กรุณาเลือกจำนวนดาว"); return; }
                     
-                        const res = await fetch(`http://localhost:3000/api/rate`,{
-                            method:'POST',
-                            headers:{'Content-Type':'application/json'},
-                            body: JSON.stringify({menuId, stars:selected})
+                        const res = await fetch(`http://localhost:3000/api/rate`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ menuId, rating: selected })
                         });
                         const data = await res.json();
-                        avgDisplay.textContent = `⭐️ ${data.average} (${data.count} คน)`;
-                        document.body.removeChild(overlay);
+
+                        const avgStars = box.querySelector('.avg-stars');
+                        const avgScore = box.querySelector('.avg-score');
+                        
+                        const ratingsArray = data.ratings[menuId];
+                        const count = ratingsArray.length;
+                        const average = ratingsArray.reduce((a,b)=>a+b,0)/count;
+
+                        updateAverage(avgStars, avgScore, average, count);
+
+                        overlay.classList.remove('show');
+                        setTimeout(() => document.body.removeChild(overlay), 300);
                     });
                 
-                    // ปิด alert
-                    overlay.querySelector('#closeBtn').addEventListener('click', ()=>{
-                        document.body.removeChild(overlay);
+                    overlay.querySelector('#closeBtn').addEventListener('click', () => {
+                        overlay.classList.remove('show');
+                        setTimeout(() => document.body.removeChild(overlay), 300);
                     });
                 });
+
+                function updateAverage(avgStarsElem, avgScoreElem, average, count) {
+                    avgStarsElem.innerHTML = '';
+                    for (let i = 1; i <= 5; i++) {
+                        const star = document.createElement('span');
+                        star.textContent = '★';
+                        if (i <= Math.floor(average)) star.style.color = 'gold';
+                        else if (i - 0.5 <= average) star.style.color = 'goldenrod'; // ครึ่งดาว
+                        else star.style.color = 'gray';
+                        avgStarsElem.appendChild(star);
+                    }
+                    avgScoreElem.textContent = `${average.toFixed(1)} (${count} คน)`;
+                }
             
                 // โหลดค่าเฉลี่ยตอนหน้าโหลด
-                (async ()=>{
+                (async () => {
                     const res = await fetch(`http://localhost:3000/api/average/${menuId}`);
                     const data = await res.json();
-                    avgDisplay.textContent = `⭐️ ${data.average} (${data.count} คน)`;
+
+                    const avgStars = box.querySelector('.avg-stars');
+                    const avgScore = box.querySelector('.avg-score');
+
+                    updateAverage(avgStars, avgScore, data.average, data.count);
                 })();
             });
         });

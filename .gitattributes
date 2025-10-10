@@ -1,0 +1,5 @@
+# ใช้ LF เป็นบรรทัดสำหรับไฟล์โค้ดทั้งหมด
+*.js   text eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.json text eol=lf
