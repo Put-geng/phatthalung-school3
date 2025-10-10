@@ -58,9 +58,171 @@
                 <div class="content-menu">
                     <h3></h3>
                     <p></p>
+
+                    <div class="average-rating">
+                        <span class="avg-stars">★★★★★</span>
+                        <span class="avg-score">(0 คะแนน / 0 คน)</span>
+                    </div>
+
+                    <button class="rate-btn">ให้คะแนน</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Alert Box -->
+    <div id="ratingAlert" class="custom-alert">
+        <div class="alert-content">
+            <h3>ให้คะแนนเมนูนี้</h3>
+            <div class="stars-rating"></div>
+            <button id="submitRating">ส่งคะแนน</button>
+            <button id="cancelRating">ยกเลิก</button>
+        </div>
+    </div>
+
+    <!--alert-box-->
+	<div id="alertBox" class="custom-alert">
+		<img id="alertIcon" src="" alt="alertIcon" class="alert-icon">
+		<span id="alertMessage" class="alertMessage"></span>
+		<button id="alertOkBtn">OK</button>
+		<button id="backbutton"><a href="index.html">กลับหน้า Login</a></button>
+	</div>
+
+    <script>
+        document.getElementById('menu-icon').onclick = function() {
+			document.getElementById('nav-link').classList.toggle('active');
+		}
+
+        /*ส่วนฟังชันเข้าสู่ระบบ*/
+		const form = document.querySelector('form');
+		const nameUser = document.getElementById('NameUser');
+
+        /*ถ้ามีข้อมูลอยู่แล้ว (เช่น reload หน้า) ให้ดึงกลับมาแสดง*/
+        window.addEventListener('load', function() {
+			const savedEmailNumber = localStorage.getItem('email');
+			if (savedEmailNumber) {
+				nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmailNumber}`;
+			} else {
+				nameUser.innerHTML = `
+					<span class="material-symbols-outlined">account_box</span>ชื่อผู้ใช้
+				`;
+			}
+		});
+		
+		
+		/*เมื่อกดที่ชื่อผู้ใช้ ให้แสดงข้อมูลที่กรอกไว้*/
+		nameUser.addEventListener("click", function(e) {
+			e.preventDefault();
+			const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
+			const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
+			showAlert(`ชื่อผู้ใช้ : ${savedName}\n อีเมล : ${savedEmail}`, "success");
+		});
+		
+		
+		
+		function showAlert(message, type="success", redirecURL=null) {
+			const alertBox = document.getElementById('alertBox');
+			const alertMessage = document.getElementById('alertMessage');
+			const alertBtn = document.getElementById('alertOkBtn');
+			const backbutton = document.getElementById('backbutton');
+			const alertIcon = document.getElementById('alertIcon');
+			
+			alertMessage.textContent = message;
+			
+			if (type === "error") {
+				alertIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828843.png";
+				alertBox.className = "custom-alert show error"
+			} else {
+				alertIcon.src = "https://cdn-icons-png.flaticon.com/512/845/845646.png";
+				alertBox.className = "custom-alert show"
+				backbutton.className = "show"
+			}
+
+			alertBtn.onclick = () => {
+				alertBox.classList.remove('show');
+
+				if (redirecURL) {
+					window.location.href = redirecURL;
+				}
+			}
+		}
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            // เลือกทุก small-box-menu
+            document.querySelectorAll('.small-box-menu').forEach((box, index)=>{
+                const menuId = index+1; // กำหนด id ของเมนู
+                const contentDiv = box.querySelector('.content-menu');
+            
+                // เพิ่มส่วนแสดงค่าเฉลี่ย
+                const avgDisplay = document.createElement('p');
+                avgDisplay.id = `avg-${menuId}`;
+                avgDisplay.textContent = "⭐️ 0 (0 คน)";
+                contentDiv.appendChild(avgDisplay);
+            
+                // เพิ่มปุ่มให้คะแนน
+                const rateBtn = document.createElement('button');
+                rateBtn.textContent = "ให้คะแนน";
+                contentDiv.appendChild(rateBtn);
+            
+                rateBtn.addEventListener('click', ()=>{
+                    // สร้าง alert overlay
+                    const overlay = document.createElement('div');
+                    overlay.classList.add('alert-overlay');
+                    overlay.innerHTML = `
+                        <div class="alert-box">
+                            <h3>ให้คะแนนร้านนี้</h3>
+                            <div class="stars"></div>
+                            <button id="sendBtn">ส่งคะแนน</button>
+                            <button id="closeBtn">ยกเลิก</button>
+                        </div>
+                    `;
+                    document.body.appendChild(overlay);
+                    
+                    const starsDiv = overlay.querySelector('.stars');
+                    let selected = 0;
+                    
+                    // สร้างดาว 5 ดวง
+                    for(let i=1;i<=5;i++){
+                        const s = document.createElement('span');
+                        s.textContent = '★';
+                        s.addEventListener('click', ()=>{ selected=i; updateStars(); });
+                        starsDiv.appendChild(s);
+                    }
+                    function updateStars(){
+                        starsDiv.querySelectorAll('span').forEach((s, idx)=>{
+                            s.style.color = idx<selected?'gold':'gray';
+                        });
+                    }
+                
+                    // ส่งคะแนนไป backend
+                    overlay.querySelector('#sendBtn').addEventListener('click', async ()=>{
+                        if(selected===0){ alert("กรุณาเลือกจำนวนดาว"); return; }
+                    
+                        const res = await fetch(`http://localhost:3000/api/rate`,{
+                            method:'POST',
+                            headers:{'Content-Type':'application/json'},
+                            body: JSON.stringify({menuId, stars:selected})
+                        });
+                        const data = await res.json();
+                        avgDisplay.textContent = `⭐️ ${data.average} (${data.count} คน)`;
+                        document.body.removeChild(overlay);
+                    });
+                
+                    // ปิด alert
+                    overlay.querySelector('#closeBtn').addEventListener('click', ()=>{
+                        document.body.removeChild(overlay);
+                    });
+                });
+            
+                // โหลดค่าเฉลี่ยตอนหน้าโหลด
+                (async ()=>{
+                    const res = await fetch(`http://localhost:3000/api/average/${menuId}`);
+                    const data = await res.json();
+                    avgDisplay.textContent = `⭐️ ${data.average} (${data.count} คน)`;
+                })();
+            });
+        });
+
+    </script>
 </body>
 </html>
