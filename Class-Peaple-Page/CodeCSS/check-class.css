@@ -175,6 +175,11 @@ section.building h2 {
 	    font-weight: bold;
 	    text-shadow: 3.5px 3px 1px rgba(0, 0, 0, 0.91);
     }
+
+    .inline-head-for-check {
+        display: flex;
+        flex-direction: column;
+    }
     
     .timecurrent {
         width: 90%;
@@ -182,11 +187,12 @@ section.building h2 {
 
     .timecurrent h2 {
         font-size: 1.3rem;
+        text-align: center;
     }
 
     .rooms {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 15px;
     }
 
