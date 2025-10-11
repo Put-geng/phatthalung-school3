@@ -99,93 +99,89 @@
         // แสดงชื่อผู้ใช้
         const nameUser = document.getElementById('NameUser');
         window.addEventListener('load', () => {
-            const savedEmail = localStorage.getItem('email');
-            nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmail || 'ชื่อผู้ใช้'}`;
+            const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
+            nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmail}`;
         });
-        
-        nameUser.addEventListener('click', (e) => {
+        nameUser.addEventListener("click", (e) => {
             e.preventDefault();
             const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
             const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
             alert(`ชื่อผู้ใช้: ${savedName}\nอีเมล: ${savedEmail}`);
         });
         
-        // ฟังก์ชันอัปเดตดาวเฉลี่ย
-        function updateAverage(avgStarsElem, avgScoreElem, average, count){
+        // ฟังก์ชันอัพเดตค่าเฉลี่ย
+        function updateAverage(avgStarsElem, avgScoreElem, average, count) {
             avgStarsElem.innerHTML = '';
-            for(let i=1;i<=5;i++){
+            for (let i=1; i<=5; i++) {
                 const star = document.createElement('span');
-                star.textContent='★';
-                if(i <= Math.floor(average)) star.style.color='gold';
-                else if(i-0.5 <= average) star.style.color='goldenrod';
-                else star.style.color='gray';
+                star.textContent = '★';
+                if (i <= Math.floor(average)) star.style.color = 'gold';
+                else if (i - 0.5 <= average) star.style.color = 'goldenrod';
+                else star.style.color = 'gray';
                 avgStarsElem.appendChild(star);
             }
-            avgScoreElem.textContent=`${average.toFixed(1)} (${count} คน)`;
+            avgScoreElem.textContent = `${average.toFixed(1)} (${count} คน)`;
         }
         
         // โหลดค่าเฉลี่ยตอนหน้าโหลด
-        async function loadAverage(menuId, box){
-            try{
-                const res = await fetch(`${baseURL}/api/average/${menuId}`);
-                const data = await res.json();
-                const avgStars = box.querySelector('.avg-stars');
-                const avgScore = box.querySelector('.avg-score');
-                updateAverage(avgStars, avgScore, data.average, data.count);
-            } catch(err){
-                console.error(err);
-            }
+        async function loadAverage(menuId, box) {
+            const res = await fetch(`${baseURL}/api/average/${menuId}`);
+            const data = await res.json();
+            const avgStars = box.querySelector('.avg-stars');
+            const avgScore = box.querySelector('.avg-score');
+            updateAverage(avgStars, avgScore, data.average, data.count);
         }
         
-        // ระบบให้คะแนน
-        document.querySelectorAll('.small-box-menu').forEach((box, index)=>{
+        // rate button
+        document.querySelectorAll('.small-box-menu').forEach((box,index)=>{
             const menuId = index+1;
             const rateBtn = box.querySelector('.rate-btn');
-            const overlay = document.getElementById('ratingOverlay');
-            const starsDiv = overlay.querySelector('.stars');
-            const sendBtn = overlay.querySelector('#sendBtn');
-            const closeBtn = overlay.querySelector('#closeBtn');
-            let selected=0;
         
-            // สร้างดาว
-            starsDiv.innerHTML='';
-            for(let i=1;i<=5;i++){
-                const s = document.createElement('span');
-                s.textContent='★';
-                s.addEventListener('click', ()=>{
-                    selected=i;
-                    Array.from(starsDiv.children).forEach((star, idx)=>{
-                        star.style.color= idx<selected?'gold':'gray';
+            loadAverage(menuId, box); // โหลดค่าเฉลี่ยตอนเริ่ม
+        
+            rateBtn.addEventListener('click', ()=>{
+                const overlay = document.getElementById('overlay');
+                const starsContainer = document.getElementById('stars-container');
+                overlay.style.display = 'block';
+                starsContainer.innerHTML = '';
+                let selected = 0;
+            
+                // สร้างดาวให้คลิกได้
+                for (let i=1;i<=5;i++){
+                    const star = document.createElement('span');
+                    star.textContent = '★';
+                    star.classList.add('star');
+                    star.addEventListener('click', ()=>{ selected=i; updateStars(); });
+                    starsContainer.appendChild(star);
+                }
+            
+                function updateStars(){
+                    starsContainer.querySelectorAll('span').forEach((s,idx)=>{
+                        s.style.color = idx<selected?'gold':'gray';
                     });
-                });
-                starsDiv.appendChild(s);
-            }
-        
-            // ปุ่มให้คะแนน
-            rateBtn.addEventListener('click', ()=>overlay.classList.add('show'));
-        
-            closeBtn.addEventListener('click', ()=>{
-                overlay.classList.remove('show');
-                selected=0;
-                Array.from(starsDiv.children).forEach(star=>star.style.color='gray');
-            });
-        
-            sendBtn.addEventListener('click', async ()=>{
-                if(selected===0){ alert('กรุณาเลือกจำนวนดาว'); return; }
-                try{
-                    await fetch(`${baseURL}/api/rate`, {
+                }
+            
+                // ส่งคะแนน
+                document.getElementById('sendBtn').onclick = async ()=>{
+                    if(selected===0){ alert("กรุณาเลือกจำนวนดาว"); return; }
+                    const res = await fetch(`${baseURL}/api/rate`,{
                         method:'POST',
                         headers:{'Content-Type':'application/json'},
                         body:JSON.stringify({menuId,rating:selected})
                     });
-                    await loadAverage(menuId, box);
-                    overlay.classList.remove('show');
-                    selected=0;
-                    Array.from(starsDiv.children).forEach(star=>star.style.color='gray');
-                } catch(err){ console.error(err); alert('เกิดข้อผิดพลาด'); }
+                    const data = await res.json();
+                
+                    // โหลดค่าเฉลี่ยใหม่
+                    loadAverage(menuId, box);
+                
+                    overlay.style.display='none';
+                }
+            
+                // ปิด overlay
+                document.getElementById('closeBtn').onclick = ()=>{
+                    overlay.style.display='none';
+                }
             });
-        
-            loadAverage(menuId, box);
         });
     </script>
 </body>
