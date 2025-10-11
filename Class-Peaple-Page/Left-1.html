@@ -89,164 +89,104 @@
 	</div>
 
     <script>
-        document.getElementById('menu-icon').onclick = function() {
-			document.getElementById('nav-link').classList.toggle('active');
-		}
-
-        /*ส่วนฟังชันเข้าสู่ระบบ*/
-		const form = document.querySelector('form');
-		const nameUser = document.getElementById('NameUser');
-
-        /*ถ้ามีข้อมูลอยู่แล้ว (เช่น reload หน้า) ให้ดึงกลับมาแสดง*/
-        window.addEventListener('load', function() {
-			const savedEmailNumber = localStorage.getItem('email');
-			if (savedEmailNumber) {
-				nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmailNumber}`;
-			} else {
-				nameUser.innerHTML = `
-					<span class="material-symbols-outlined">account_box</span>ชื่อผู้ใช้
-				`;
-			}
-		});
-		
-		
-		/*เมื่อกดที่ชื่อผู้ใช้ ให้แสดงข้อมูลที่กรอกไว้*/
-		nameUser.addEventListener("click", function(e) {
-			e.preventDefault();
-			const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
-			const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
-			showAlert(`ชื่อผู้ใช้ : ${savedName}\n อีเมล : ${savedEmail}`, "success");
-		});
-		
-		
-		
-		function showAlert(message, type="success", redirecURL=null) {
-			const alertBox = document.getElementById('alertBox');
-			const alertMessage = document.getElementById('alertMessage');
-			const alertBtn = document.getElementById('alertOkBtn');
-			const backbutton = document.getElementById('backbutton');
-			const alertIcon = document.getElementById('alertIcon');
-			
-			alertMessage.textContent = message;
-			
-			if (type === "error") {
-				alertIcon.src = "https://cdn-icons-png.flaticon.com/512/1828/1828843.png";
-				alertBox.className = "custom-alert show error"
-			} else {
-				alertIcon.src = "https://cdn-icons-png.flaticon.com/512/845/845646.png";
-				alertBox.className = "custom-alert show"
-				backbutton.className = "show"
-			}
-
-			alertBtn.onclick = () => {
-				alertBox.classList.remove('show');
-
-				if (redirecURL) {
-					window.location.href = redirecURL;
-				}
-			}
-		}
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.small-box-menu').forEach((box, index) => {
-                const menuId = index + 1;
-                const avgDisplay = box.querySelector('.average-rating'); // ใช้ element เดิม
-                const rateBtn = box.querySelector('.rate-btn'); // ใช้ปุ่มเดิม
+        const baseURL = "https://phatthalung-school3-shadow.vercel.app";
             
-                rateBtn.addEventListener('click', () => {
-                    // สร้าง overlay สำหรับ alert
-                    const overlay = document.createElement('div');
-                    overlay.classList.add('alert-overlay');
-                    overlay.innerHTML = `
-                        <div class="alert-box">
-                            <h3>ให้คะแนนร้านนี้</h3>
-                            <div class="stars"></div>
-                            <button id="sendBtn">ส่งคะแนน</button>
-                            <button id="closeBtn">ยกเลิก</button>
-                        </div>
-                    `;
-                    document.body.appendChild(overlay);
-                    setTimeout(() => overlay.classList.add('show'), 50);
-                    
-                    const starsDiv = overlay.querySelector('.stars');
-                    let selected = 0;
-                    
-                    for (let i = 1; i <= 5; i++) {
-                        const s = document.createElement('span');
-                        s.textContent = '★';
-                        s.addEventListener('click', () => { selected = i; updateStars(); });
-                        starsDiv.appendChild(s);
-                    }
-                
-                    function updateStars() {
-                        starsDiv.querySelectorAll('span').forEach((s, idx) => {
-                            s.style.color = idx < selected ? 'gold' : 'gray';
-                        });
-                    }
-                
-                    overlay.querySelector('#sendBtn').addEventListener('click', async () => {
-                        if (selected === 0) { alert("กรุณาเลือกจำนวนดาว"); return; }
-
-                        const baseURL = "https://phatthalung-school3-backend-qqfv.vercel.app";
-                    
-                        const res = await fetch(`${baseURL}/api/rate`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ menuId, rating: selected })
-                        });
-
-                        const resAvg = await fetch(`${baseURL}/api/average/${menuId}`);
-                        const data = await res.json();
-
-                        const avgStars = box.querySelector('.avg-stars');
-                        const avgScore = box.querySelector('.avg-score');
-                        
-                        const ratingsArray = data.ratings[menuId];
-                        const count = ratingsArray.length;
-                        const average = ratingsArray.reduce((a,b)=>a+b,0)/count;
-
-                        updateAverage(avgStars, avgScore, average, count);
-
-                        overlay.classList.remove('show');
-                        setTimeout(() => document.body.removeChild(overlay), 300);
-                    });
-                
-                    overlay.querySelector('#closeBtn').addEventListener('click', () => {
-                        overlay.classList.remove('show');
-                        setTimeout(() => document.body.removeChild(overlay), 300);
+        // nav toggle
+        document.getElementById('menu-icon').onclick = () => {
+            document.getElementById('nav-link').classList.toggle('active');
+        }
+        
+        // แสดงชื่อผู้ใช้
+        const nameUser = document.getElementById('NameUser');
+        window.addEventListener('load', () => {
+            const savedEmail = localStorage.getItem('email');
+            nameUser.innerHTML = `<span class="material-symbols-outlined">account_box</span>${savedEmail || 'ชื่อผู้ใช้'}`;
+        });
+        
+        nameUser.addEventListener('click', (e) => {
+            e.preventDefault();
+            const savedName = localStorage.getItem('username') || "ไม่พบชื่อผู้ใช้";
+            const savedEmail = localStorage.getItem('email') || "ไม่พบอีเมล";
+            alert(`ชื่อผู้ใช้: ${savedName}\nอีเมล: ${savedEmail}`);
+        });
+        
+        // ฟังก์ชันอัปเดตดาวเฉลี่ย
+        function updateAverage(avgStarsElem, avgScoreElem, average, count){
+            avgStarsElem.innerHTML = '';
+            for(let i=1;i<=5;i++){
+                const star = document.createElement('span');
+                star.textContent='★';
+                if(i <= Math.floor(average)) star.style.color='gold';
+                else if(i-0.5 <= average) star.style.color='goldenrod';
+                else star.style.color='gray';
+                avgStarsElem.appendChild(star);
+            }
+            avgScoreElem.textContent=`${average.toFixed(1)} (${count} คน)`;
+        }
+        
+        // โหลดค่าเฉลี่ยตอนหน้าโหลด
+        async function loadAverage(menuId, box){
+            try{
+                const res = await fetch(`${baseURL}/api/average/${menuId}`);
+                const data = await res.json();
+                const avgStars = box.querySelector('.avg-stars');
+                const avgScore = box.querySelector('.avg-score');
+                updateAverage(avgStars, avgScore, data.average, data.count);
+            } catch(err){
+                console.error(err);
+            }
+        }
+        
+        // ระบบให้คะแนน
+        document.querySelectorAll('.small-box-menu').forEach((box, index)=>{
+            const menuId = index+1;
+            const rateBtn = box.querySelector('.rate-btn');
+            const overlay = document.getElementById('ratingOverlay');
+            const starsDiv = overlay.querySelector('.stars');
+            const sendBtn = overlay.querySelector('#sendBtn');
+            const closeBtn = overlay.querySelector('#closeBtn');
+            let selected=0;
+        
+            // สร้างดาว
+            starsDiv.innerHTML='';
+            for(let i=1;i<=5;i++){
+                const s = document.createElement('span');
+                s.textContent='★';
+                s.addEventListener('click', ()=>{
+                    selected=i;
+                    Array.from(starsDiv.children).forEach((star, idx)=>{
+                        star.style.color= idx<selected?'gold':'gray';
                     });
                 });
-
-                function updateAverage(avgStarsElem, avgScoreElem, average, count) {
-                    avgStarsElem.innerHTML = '';
-                    for (let i = 1; i <= 5; i++) {
-                        const star = document.createElement('span');
-                        star.textContent = '★';
-                        if (i <= Math.floor(average)) star.style.color = 'gold';
-                        else if (i - 0.5 <= average) star.style.color = 'goldenrod'; // ครึ่งดาว
-                        else star.style.color = 'gray';
-                        avgStarsElem.appendChild(star);
-                    }
-                    avgScoreElem.textContent = `${average.toFixed(1)} (${count} คน)`;
-                }
-            
-                // โหลดค่าเฉลี่ยตอนหน้าโหลด
-                (async () => {
-                    const baseURL = "https://phatthalung-school3-backend-qqfv.vercel.app";
-
-                    await fetch(`${baseURL}/api/rate`, { ... });
-                    await fetch(`${baseURL}/api/average/${menuId}`);
-
-                    const data = await res.json();
-
-                    const avgStars = box.querySelector('.avg-stars');
-                    const avgScore = box.querySelector('.avg-score');
-
-                    updateAverage(avgStars, avgScore, data.average, data.count);
-                })();
+                starsDiv.appendChild(s);
+            }
+        
+            // ปุ่มให้คะแนน
+            rateBtn.addEventListener('click', ()=>overlay.classList.add('show'));
+        
+            closeBtn.addEventListener('click', ()=>{
+                overlay.classList.remove('show');
+                selected=0;
+                Array.from(starsDiv.children).forEach(star=>star.style.color='gray');
             });
+        
+            sendBtn.addEventListener('click', async ()=>{
+                if(selected===0){ alert('กรุณาเลือกจำนวนดาว'); return; }
+                try{
+                    await fetch(`${baseURL}/api/rate`, {
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({menuId,rating:selected})
+                    });
+                    await loadAverage(menuId, box);
+                    overlay.classList.remove('show');
+                    selected=0;
+                    Array.from(starsDiv.children).forEach(star=>star.style.color='gray');
+                } catch(err){ console.error(err); alert('เกิดข้อผิดพลาด'); }
+            });
+        
+            loadAverage(menuId, box);
         });
-
     </script>
 </body>
 </html>
