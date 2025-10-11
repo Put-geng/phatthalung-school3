@@ -186,12 +186,16 @@
                 
                     overlay.querySelector('#sendBtn').addEventListener('click', async () => {
                         if (selected === 0) { alert("กรุณาเลือกจำนวนดาว"); return; }
+
+                        const baseURL = "https://phatthalung-school3-backend-qqfv.vercel.app";
                     
-                        const res = await fetch(`https://phatthalung-school3.vercel.app/api/rate`, {
+                        const res = await fetch(`${baseURL}/api/rate`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ menuId, rating: selected })
                         });
+
+                        const resAvg = await fetch(`${baseURL}/api/average/${menuId}`);
                         const data = await res.json();
 
                         const avgStars = box.querySelector('.avg-stars');
@@ -228,7 +232,11 @@
             
                 // โหลดค่าเฉลี่ยตอนหน้าโหลด
                 (async () => {
-                    const res = await fetch(`https://phatthalung-school3.vercel.app/api/average/${menuId}`);
+                    const baseURL = "https://phatthalung-school3-backend-qqfv.vercel.app";
+
+                    await fetch(`${baseURL}/api/rate`, { ... });
+                    await fetch(`${baseURL}/api/average/${menuId}`);
+
                     const data = await res.json();
 
                     const avgStars = box.querySelector('.avg-stars');
