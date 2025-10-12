@@ -5,6 +5,10 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// อนุญาตทุก origin (ทดสอบได้ทั้ง localhost และมือถือ)
+app.use(cors({ origin: "*" }));
+app.use(express.json());
+
 // 🔗 เชื่อมต่อ MongoDB
 const MONGODB_URI = "mongodb+srv://Put-geng:1234pppp@cluster0.dhenncz.mongodb.net/schoolVotes?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -20,9 +24,6 @@ const ratingSchema = new mongoose.Schema({
 });
 
 const Rating = mongoose.model("Rating", ratingSchema);
-
-app.use(cors());
-app.use(express.json());
 
 // 🟢 POST - รับคะแนนจากผู้ใช้
 app.post("/api/rate", async (req, res) => {
@@ -57,7 +58,7 @@ app.get("/api/average/:menuId", async (req, res) => {
   }
 });
 
-// 🟢 เริ่มเซิร์ฟเวอร์ (ใช้เฉพาะตอนรันใน localhost)
+// 🟢 เริ่มเซิร์ฟเวอร์ (เฉพาะตอน run localhost)
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 }
