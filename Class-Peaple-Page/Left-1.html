@@ -93,7 +93,6 @@
             document.getElementById('nav-link').classList.toggle('active');
         }
 
-        /* ส่วนฟังก์ชันแสดงชื่อผู้ใช้ */
         const nameUser = document.getElementById('NameUser');
 
         window.addEventListener('load', function() {
@@ -136,16 +135,17 @@
             }
         }
 
-        /* ส่วนจัดการปุ่มให้คะแนน */
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.small-box-menu').forEach((box, index) => {
                 const menuId = index + 1;
                 const avgStarsElem = box.querySelector('.avg-stars');
                 const avgScoreElem = box.querySelector('.avg-score');
                 const rateBtn = box.querySelector('.rate-btn');
-            
-                // โหลดค่าเฉลี่ยตอนหน้าโหลด
+
+                // URL ของ backend จริงบน Vercel
                 const baseURL = "https://phatthalung-school3-shadow.vercel.app";
+
+                // โหลดค่าเฉลี่ยตอนหน้าโหลด
                 (async () => {
                     try {
                         const res = await fetch(`${baseURL}/api/average/${menuId}`);
@@ -155,7 +155,7 @@
                         console.error("โหลดค่าเฉลี่ยไม่สำเร็จ", err);
                     }
                 })();
-            
+
                 rateBtn.addEventListener('click', () => {
                     const overlay = document.createElement('div');
                     overlay.classList.add('alert-overlay');
@@ -184,16 +184,20 @@
                         });
                         starsDiv.appendChild(s);
                     }
-                
+
                     function updateStars() {
                         starsDiv.querySelectorAll('span').forEach((s, idx) => {
                             s.style.color = idx < selected ? 'gold' : 'gray';
                         });
                     }
-                
+
+                    // ตรวจสอบว่าโหวตแล้วใน localStorage หรือยัง
+                    const votedMenus = JSON.parse(localStorage.getItem('votedMenus') || "[]");
+
                     sendBtn.addEventListener('click', async () => {
                         if (selected === 0) { alert("กรุณาเลือกจำนวนดาว"); return; }
-                    
+                        if (votedMenus.includes(menuId)) { alert("คุณได้โหวตเมนูนี้แล้ว"); return; }
+
                         try {
                             const res = await fetch(`${baseURL}/api/rate`, {
                                 method: 'POST',
@@ -207,16 +211,20 @@
                             const average = ratingsArray.reduce((a,b)=>a+b,0)/count;
                         
                             updateAverage(avgStarsElem, avgScoreElem, average, count);
-                        
+
+                            // บันทึกว่าโหวตแล้ว
+                            votedMenus.push(menuId);
+                            localStorage.setItem('votedMenus', JSON.stringify(votedMenus));
+
                         } catch(err) {
                             console.error(err);
                             alert("ส่งคะแนนไม่สำเร็จ");
                         }
-                    
+
                         overlay.classList.remove('show');
                         setTimeout(() => document.body.removeChild(overlay), 300);
                     });
-                
+
                     closeBtn.addEventListener('click', () => {
                         overlay.classList.remove('show');
                         setTimeout(() => document.body.removeChild(overlay), 100);
