@@ -1,24 +1,45 @@
 .header-section {
 	font-size: 2rem;
 	font-family: 'Sriracha', sans-serif;
-	background-color: rgba(45, 147, 187, 0.841);
+	background-color: rgba(45, 147, 187, 0.923);
 	width: 90%;
-	max-width: 1200px;
+	max-width: 900px;
 	text-align: center;
 	margin-top: 30px;
 	font-weight: 600;
 	padding: 10px;
 	border-radius: 12px;
 	color: white;
+	text-shadow: 3px 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.header-section.right-res {
+	margin-top: 50px;
 }
 
 .logo-image {
-	width: 70px;
+	width: 85px;
 	z-index: 10;
+}
+
+.logo-image.drink {
+	width: 60px;
+}
+
+.logo-image.chicken {
+	width: 120px;
+}
+
+.logo-image.big {
+	width: 110px;
 }
 
 .upper-box.drink {
 	background-color: #0cc0df;
+}
+
+.upper-box.sweet {
+	background-color: #e79ee3;
 }
 
 .upper-box {
@@ -67,7 +88,7 @@
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 	gap: 30px;
-	margin-top: 55px;
+	margin-top: 45px;
 	margin-bottom: 20px;
 }
 

@@ -1,23 +1,24 @@
 .big-box-menu {
-    background-color: rgb(254, 105, 105);
+    background-color: rgba(214, 144, 31, 0.71);
     width: auto;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 10px;
     margin: 20px;
     border-radius: 16px;
     box-shadow: 8px 8px 2px rgba(0, 0, 0, 0.6);
 }
 
 .small-box-menu {
-    background-color: rgb(207, 214, 247);
+    background: url('photo-Class/wood-background.jpg')no-repeat center center/cover;
     width: 650px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    border: 3px solid black;
 }
 
 .food-container {
@@ -35,7 +36,7 @@
 }
 
 .container-menu {
-    margin-top: 30px;
+    margin-top: 25px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
@@ -45,22 +46,62 @@
     font-size: 1.3rem;
     font-weight: 600;
     text-align: center;
+    text-shadow: 1.5px 2px 1px rgba(255, 255, 255, 0.8);
 }
 
 .container-menu p {
     font-family: 'Sriracha', sans-serif;
     font-size: 1.1rem;
     text-align: center;
-    background-color: rgb(56, 211, 56);
+    background-color: rgb(66, 197, 99);
     text-decoration: underline;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     margin-top: 8px;
+    border-bottom: 2px solid rgb(49, 166, 49);
+    text-shadow: 1.5px 1px 1px rgba(255, 255, 255, 0.8);
 }
 
 .caption {
     background-color: white;
     padding: 7px;
+    font-family: 'Sriracha', sans-serif;
+    font-size: 1rem;
+}
+
+.inline-head-Res {
+	display: flex;
+	margin-top: 0;
+	animation: FateIn 3.5s ease;
+}
+		
+@keyframes FateIn {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+			
+	100% {
+		opacity: 100%;
+		transform: translateY(0);
+	}
+}
+		
+.inline-head-Res div {
+	text-align: center;
+	font-size: 4.5rem;
+	font-weight: bold;
+	text-shadow: 5px 3px 1px rgba(0, 0, 0, 0.91);
+}
+		
+.green-Res {
+	color: #4cc324;
+	font-family: 'Sriracha', sans-serif;
+}
+		
+.yellow-Res {
+	color: #ecc21c;
+	font-family: 'Sriracha', sans-serif;
 }
 
 @media screen and (min-width: 1025px) {
@@ -78,22 +119,36 @@
 @media screen and (max-width: 480px) {
     .container-menu {
         grid-template-columns: repeat(1, 1fr);
-        gap: 20px;
+        gap: 15px;
     }
 
     .food-photo {
-        width: 130px;
-        height: 100px;
+        width: 135px;
+        height: 105px;
         border-radius: 6px;
     }
 
     .food-container {
-        gap: 20px;
+        gap: 15px;
     }
 
     .small-box-menu {
-        width: 300px;
+        width: 310px;
         padding: 20px;
+    }
+
+    .caption {
+        font-size: 0.85rem;
+    }
+
+    .inline-head-Res div {
+        font-size: 2.5rem;
+        text-shadow: 4px 2.5px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    .inline-head-Res {
+        display: flex;
+        gap: 15px;
     }
 
 }
