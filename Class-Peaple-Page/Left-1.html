@@ -51,32 +51,35 @@
     <div class="container-menu">
         <div class="big-box-menu">
             <div class="small-box-menu">
-                <div class="food-image">
-                    <img src="photo-Class/Left-Res1-no1-1.jpg" alt="" class="food-photo">
-                    <img src="" alt="" class="food-photo">
+                <div class="food-container">
+                    <img src="photo-LeftRes/Left-Res1-no1-1.jpg" alt="food-pic-1-1" class="food-photo">
+                    <img src="photo-LeftRes/Left-Res1-no2-1.jpg" alt="food-pic-1-2" class="food-photo">
                 </div>
                 <div class="content-menu">
-                    <h3></h3>
-                    <p></p>
-
-                    <div class="average-rating">
-                        <span class="avg-stars">★★★★★</span>
-                        <span class="avg-score">(0 คะแนน / 0 คน)</span>
+                    <h3>--ข้าวกะเพราหมูกรอบ--</h3>
+                    <p>ราคา : -35฿</p>
+                    <div class="caption">
+                        ข้านกะดพราหมูกรอบจานนี้ กรอบมาก อร่อยเผ็ดกำลังดีกลิ่นหอมและร้อนตลอดเวลา
                     </div>
-
-                    <button class="rate-btn">ให้คะแนน</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Alert Box -->
-    <div id="ratingAlert" class="custom-alert-new">
-        <div class="alert-content">
-            <h3>ให้คะแนนเมนูนี้</h3>
-            <div class="stars-rating"></div>
-            <button id="submitRating">ส่งคะแนน</button>
-            <button id="cancelRating">ยกเลิก</button>
+
+        <div class="big-box-menu">
+            <div class="small-box-menu">
+                <div class="food-container">
+                    <img src="photo-LeftRes/Left-Res1-no1-1.jpg" alt="food-pic-1-1" class="food-photo">
+                    <img src="photo-LeftRes/Left-Res1-no2-1.jpg" alt="food-pic-1-2" class="food-photo">
+                </div>
+                <div class="content-menu">
+                    <h3>--ข้าวกะเพราหมูกรอบ--</h3>
+                    <p>ราคา : -25฿</p>
+                    <div class="caption">
+                        ข้าวกะเพราหมูกรอบจานนี้ไม่อร่อยเลยดหม็นน้ำมันมาก จืดชืดไม่มีรสชาติเลย
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -133,110 +136,6 @@
                 alertBox.classList.remove('show');
                 if (redirecURL) window.location.href = redirecURL;
             }
-        }
-        
-        // ==========================================
-        // Rate button + overlay
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            const baseURL = "https://phatthalung-school3-shadow.vercel.app";
-            const votedMenus = JSON.parse(localStorage.getItem('votedMenus') || "[]");
-        
-            document.querySelectorAll('.small-box-menu').forEach((box, index) => {
-                const menuId = index + 1;
-                const avgStarsElem = box.querySelector('.avg-stars');
-                const avgScoreElem = box.querySelector('.avg-score');
-                const rateBtn = box.querySelector('.rate-btn');
-            
-                // โหลดค่าเฉลี่ยตอนโหลดหน้า
-                (async () => {
-                    try {
-                        const res = await fetch(`${baseURL}/api/average/${menuId}`);
-                        const data = await res.json();
-                        updateAverage(avgStarsElem, avgScoreElem, data.average, data.count);
-                    } catch(err) {
-                        console.error(err);
-                    }
-                })();
-            
-                rateBtn.addEventListener('click', () => {
-                    const overlay = document.createElement('div');
-                    overlay.classList.add('alert-overlay');
-                    overlay.innerHTML = `
-                        <div class="alert-box">
-                            <h3>ให้คะแนนร้านนี้</h3>
-                            <div class="stars"></div>
-                            <button class="sendBtn">ส่งคะแนน</button>
-                            <button class="closeBtn">ยกเลิก</button>
-                        </div>
-                    `;
-                    document.body.appendChild(overlay);
-                    setTimeout(() => overlay.classList.add('show'), 50);
-                    
-                    const starsDiv = overlay.querySelector('.stars');
-                    const sendBtn = overlay.querySelector('.sendBtn');
-                    const closeBtn = overlay.querySelector('.closeBtn');
-                    
-                    let selected = 0;
-                    for (let i = 1; i <= 5; i++) {
-                        const s = document.createElement('span');
-                        s.textContent = '★';
-                        s.style.cursor = 'pointer';
-                        s.addEventListener('click', () => {
-                            selected = i;
-                            starsDiv.querySelectorAll('span').forEach((s2, idx) => {
-                                s2.style.color = idx < selected ? 'gold' : 'gray';
-                            });
-                        });
-                        starsDiv.appendChild(s);
-                    }
-                
-                    sendBtn.addEventListener('click', async () => {
-                        if (selected === 0) { alert("กรุณาเลือกจำนวนดาว"); return; }
-                        if (votedMenus.includes(menuId)) { alert("คุณได้โหวตเมนูนี้แล้ว"); return; }
-                    
-                        try {
-                            await fetch(`${baseURL}/api/rate`, {
-                                method: 'POST',
-                                headers: {'Content-Type': 'application/json'},
-                                body: JSON.stringify({menuId, rating: selected})
-                            });
-                        
-                            const res = await fetch(`${baseURL}/api/average/${menuId}`);
-                            const data = await res.json();
-                            updateAverage(avgStarsElem, avgScoreElem, data.average, data.count);
-                        
-                            votedMenus.push(menuId);
-                            localStorage.setItem('votedMenus', JSON.stringify(votedMenus));
-                        
-                        } catch(err) {
-                            console.error(err);
-                            alert("ส่งคะแนนไม่สำเร็จ");
-                        }
-                    
-                        overlay.classList.remove('show');
-                        setTimeout(() => overlay.remove(), 300);
-                    });
-                
-                    closeBtn.addEventListener('click', () => {
-                        overlay.classList.remove('show');
-                        setTimeout(() => overlay.remove(), 100);
-                    });
-                });
-            });
-        });
-        
-        function updateAverage(avgStarsElem, avgScoreElem, average, count) {
-            avgStarsElem.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                const star = document.createElement('span');
-                star.textContent = '★';
-                if (i <= Math.floor(average)) star.style.color = 'gold';
-                else if (i - 0.5 <= average) star.style.color = 'goldenrod';
-                else star.style.color = 'gray';
-                avgStarsElem.appendChild(star);
-            }
-            avgScoreElem.textContent = `${average.toFixed(1)} (${count} คน)`;
         }
         
     </script>
