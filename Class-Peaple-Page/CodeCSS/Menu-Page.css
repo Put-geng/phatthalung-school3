@@ -18,7 +18,7 @@
 }
 
 .logo-image {
-	width: 85px;
+	width: 90px;
 	z-index: 10;
 }
 
@@ -32,6 +32,14 @@
 
 .logo-image.big {
 	width: 110px;
+}
+
+.logo-image.gang {
+	width: 150px;
+}
+
+.logo-image.gang.ramen {
+	width: 140px;
 }
 
 .upper-box.drink {
@@ -141,6 +149,12 @@
 	color: #ecc21c;
 	font-family: 'Sriracha', sans-serif;
 }
+
+.logo-image.ice {
+	margin-left: 15px;
+}
+
+
 
 @media screen and (min-width: 1025px) {
 	.class-section-left {

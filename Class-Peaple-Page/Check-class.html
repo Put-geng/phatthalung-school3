@@ -48,18 +48,26 @@
 	</div>
 
   <div class="timecurrent" id="timecurrent"></div>
-
-  <!-- ✅ Dropdown สำหรับเลือกอาคาร -->
-  <div class="dropdown-container" style="text-align:center; margin-top: 25px;">
-    <label for="buildingSelect" style="font-size: 20px;" class="label-select">เลือกอาคาร :</label>
-    <select id="buildingSelect" style="padding:8px; font-size:16px;">
-      <option value="building-1">อาคาร 1</option>
-      <option value="building-2">อาคาร 2</option>
-      <option value="building-3">อาคาร 3</option>
-      <option value="building-4">อาคาร 4</option>
-      <option value="building-multipurpose">อาคารอเนกประสงค์</option>
-    </select>
+  
+  <div class="container-dropdown">
+    <label for="dropdownBtn">เลือกอาคาร :</label>
+    <div class="custom-dropdown">
+      <button id="dropdownBtn"></button>
+      <div class="dropdown-content">
+        <div class="option" data-value="building-1">อาคาร 1</div>
+        <div class="divider"></div>
+        <div class="option" data-value="building-2">อาคาร 2</div>
+        <div class="divider"></div>
+        <div class="option" data-value="building-3">อาคาร 3</div>
+        <div class="divider"></div>
+        <div class="option" data-value="building-4">อาคาร 4</div>
+        <div class="divider"></div>
+        <div class="option" data-value="building-multipurpose">อาคารอเนกประสงค์</div>
+      </div>
+    </div>
   </div>
+
+
 
     <!-- อาคารต่างๆ -->
     <section class="building">
@@ -335,28 +343,43 @@
       addtimecurrent();
       setInterval(addtimecurrent, 1000);
 
-      // ✅ แสดงเฉพาะอาคารที่เลือก
-      function showSelectedBuilding() {
-        const selected = document.getElementById('buildingSelect').value;
-        const allBuildings = document.querySelectorAll('.building');
+      const dropdownBtn = document.getElementById('dropdownBtn');
+      const dropdownContent = document.querySelector('.dropdown-content');
+      const options = document.querySelectorAll('.dropdown-content .option');
 
+      dropdownBtn.addEventListener('click', () => {
+        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+      });
+
+      options.forEach(option => {
+        option.addEventListener('click', () => {
+          const value = option.getAttribute('data-value');
+          dropdownBtn.textContent = option.textContent; // เปลี่ยนชื่อปุ่มเป็นชื่ออาคาร
+          dropdownContent.style.display = 'none';
+          showSelectedBuildingCustom(value);
+        });
+      });
+
+      function showSelectedBuildingCustom(selected) {
+        const allBuildings = document.querySelectorAll('.building');
         allBuildings.forEach(section => {
           if (section.querySelector(`#${selected}`)) {
-            section.style.display = 'block'; // แสดงอาคารที่เลือก
+            section.style.display = 'block';
           } else {
-            section.style.display = 'none'; // ซ่อนอาคารอื่น
+            section.style.display = 'none';
           }
         });
       }
 
-      // ✅ เรียกใช้เมื่อเลือกอาคารจาก dropdown
-      document.getElementById('buildingSelect').addEventListener('change', showSelectedBuilding);
+      // โหลดครั้งแรก
 
-      // ✅ ให้ตอนโหลดหน้าเว็บครั้งแรก แสดงแค่ "อาคาร 1"
       window.addEventListener('load', () => {
-        document.getElementById('buildingSelect').value = 'building-1';
-        showSelectedBuilding();
+        dropdownBtn.textContent = "อาคาร 1"; // เปลี่ยนชื่อปุ่มตอนโหลด
+        showSelectedBuildingCustom('building-1'); // แสดงอาคาร 1
       });
+
+
+
     </script>
 </body>
 </html>

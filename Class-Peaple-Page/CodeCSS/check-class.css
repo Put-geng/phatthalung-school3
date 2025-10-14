@@ -119,15 +119,87 @@ section.building h2 {
 	font-family: 'Sriracha', sans-serif;
 }
 
-.label-select {
+/* ปรับ .custom-dropdown ให้สวยขึ้น */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 200px;
     font-family: 'Sriracha', sans-serif;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    font-weight: 500;
-    padding: 7px;
-    background-color: rgba(249, 67, 22, 0.8);
-    border-radius: 8px;
 }
+
+#dropdownBtn {
+    width: 100%;
+    padding: 11px 15px;
+    font-size: 16px;
+    text-align: left;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+}
+
+/* ใช้ pseudo-element แสดงลูกศร ▼ */
+#dropdownBtn::after {
+    content: "▼";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #4CAF50;
+}
+
+/* dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* option */
+.dropdown-content .option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-content .option:hover {
+    background-color: #f1f1f1;
+}
+
+/* divider */
+.divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 4px 0;
+}
+
+.container-dropdown {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    align-items: center;
+    gap: 15px;
+}
+
+.container-dropdown label {
+    font-size: 1.5rem;
+    font-family: "Sriracha", sans-serif;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+    background-color: rgba(33, 75, 38, 0.748);
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid rgb(0, 59, 6);
+}
+
 
 
 
@@ -245,5 +317,23 @@ section.building h2 {
     .inline-head-for-check {
         display: flex;
         flex-direction: column;
+    }
+    
+    .container-dropdown {
+        gap: 10px;
+    }
+
+    .container-dropdown label {
+        font-size: 1.1rem;
+        font-family: "Sriracha", sans-serif;
+    }
+
+    #dropdownBtn {
+        padding: 9px 14px;
+        font-size: 0.9rem;
+    }
+
+    .dropdown-content .option {
+        font-size: 0.9rem;
     }
 }
