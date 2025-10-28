@@ -121,15 +121,140 @@
 }
 
 @media screen and (min-width: 1025px) {
+    .container-menu {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 30px;
+    }
 
+    .food-photo {
+        width: 250px;
+        height: 220px;
+        border-radius: 6px;
+    }
+
+    .food-container {
+        gap: 15px;
+    }
+
+    .small-box-menu {
+        width: 650px;
+        padding: 20px;
+    }
+
+    .caption {
+        font-size: 1.2rem;
+    }
+
+    .inline-head-Res div {
+        font-size: 3.5rem;
+        text-shadow: 4px 2.5px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    .inline-head-Res {
+        display: flex;
+        gap: 25px;
+    }
+
+    .dehaze {
+        display: block;
+    }
+
+    .content-menu h3 {
+        font-size: 1.8rem;
+    }
+
+    .content-menu p {
+        font-size: 1.4rem;
+    }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .container-menu {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
 
+    .food-photo {
+        width: 200px;
+        height: 170px;
+        border-radius: 6px;
+    }
+
+    .food-container {
+        gap: 15px;
+    }
+
+    .small-box-menu {
+        width: 550px;
+        padding: 20px;
+    }
+
+    .caption {
+        font-size: 1.2rem;
+    }
+
+    .inline-head-Res div {
+        font-size: 3rem;
+        text-shadow: 4px 2.5px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    .inline-head-Res {
+        display: flex;
+        gap: 25px;
+    }
+
+    .dehaze {
+        display: block;
+    }
+
+    .content-menu h3 {
+        font-size: 1.4rem;
+    }
+
+    .content-menu p {
+        font-size: 1.2rem;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    .container-menu {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+    }
 
+    .food-photo {
+        width: 135px;
+        height: 105px;
+        border-radius: 6px;
+    }
+
+    .food-container {
+        gap: 15px;
+    }
+
+    .small-box-menu {
+        width: 310px;
+        padding: 20px;
+    }
+
+    .caption {
+        font-size: 0.85rem;
+    }
+
+    .inline-head-Res div {
+        font-size: 2.5rem;
+        text-shadow: 4px 2.5px 1px rgba(0, 0, 0, 0.91);
+    }
+
+    .inline-head-Res {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .dehaze {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -164,7 +289,8 @@
 
     .inline-head-Res {
         display: flex;
-        gap: 15px;
+        flex-direction: column;
+        gap: 8px;
     }
 
     .dehaze {
