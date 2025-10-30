@@ -215,7 +215,7 @@ section.building h2 {
 @media screen and (min-width: 1025px) {
     .inline-head-for-check div {
 	    text-align: center;
-	    font-size: 4rem;
+	    font-size: 3.3rem;
 	    font-weight: bold;
 	    text-shadow: 5px 3px 1px rgba(0, 0, 0, 0.91);
     }

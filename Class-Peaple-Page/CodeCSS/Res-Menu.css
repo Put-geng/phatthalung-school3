@@ -136,13 +136,13 @@
 @media screen and (min-width: 1025px) {
     .container-menu {
         grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
+        gap: 15px;
         margin-top: 50px;
     }
 
     .food-photo {
-        width: 250px;
-        height: 195px;
+        width: 220px;
+        height: 165px;
         border-radius: 6px;
     }
 
@@ -151,7 +151,7 @@
     }
 
     .small-box-menu {
-        width: 650px;
+        width: 500px;
         padding: 20px;
     }
 
@@ -193,12 +193,12 @@
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .container-menu {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: 2px;
     }
 
     .food-photo {
-        width: 190px;
-        height: 140px;
+        width: 150px;
+        height: 115px;
         border-radius: 6px;
     }
 
@@ -207,7 +207,7 @@
     }
 
     .small-box-menu {
-        width: 420px;
+        width: 360px;
         padding: 20px;
     }
 
